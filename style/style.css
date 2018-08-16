@@ -1,0 +1,424 @@
+/* ::-webkit-scrollbar {
+    width: 1px;
+    margin-right: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background-color: #ddd;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    background-color: #fefeff;
+}
+::-webkit-scrollbar-track-piece { background-color: #eee;}
+
+*/
+
+::-webkit-scrollbar { width: 1px;}
+/* ::-webkit-scrollbar-button {  background-color: red; } */
+::-webkit-scrollbar-track {  background-color: transparent;}
+::-webkit-scrollbar-track-piece { background-color: transparent;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: transparent; border-radius: 1px;}
+::-webkit-scrollbar-corner { background-color: #999;}
+::-webkit-resizer { background-color: #666;}
+
+/* sss */
+:root {
+    --color-title: #acf;    /* цвет заголовков */
+    --color-fon-window: #fefefe;    /* цвет фона окна */
+    --color-fon-list: #eee;    /* цвет фона списка задач */
+    --color-fon-menu: #6897dd;    /* цвет фона верхнего меню */
+    --color-fon-task: #fff;    /* цвет фона задачи */
+    --color-fon-task-hover: #fafafa; /* цвет при наведении на задачу */
+    --color-border: #ccc;    /* цвет фона верхнего меню */
+}
+
+.clearfix{
+  clear: both;
+}
+
+html {
+  /* font-family: sans-serif; */
+}
+
+body {
+    /* background-color: red; */
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    /* background-color: var(--color-fon-window); */
+    background: url(images/stive_1.png) no-repeat;
+    background-size: cover;
+}
+
+table {
+  /* letter-spacing: 1px; */
+  /* font-size: 0.8rem; */
+  background-color: var(--color-fon-list);
+  /* border: 1px solid #aaa; */
+}
+input{
+  outline: none;
+}
+p{
+  padding: 0;
+  margin: 0;
+}
+
+/* td, th {
+  border: 1px solid rgb(190,190,190);
+  padding: 10px 20px;
+} */
+
+/* td {
+  text-align: center;
+} */
+
+/* caption {
+  padding: 10px;
+} */
+
+
+
+#container{
+  width: 1740px;
+  height: 100vh;
+  padding: 0 5px;
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* white-space: nowrap; */
+}
+/* #workTasks, #checkTask, #checkMain{
+  padding: 2px;
+} */
+
+/*-----------------------Стилизация таблицы-----------------------*/
+#table{
+  margin: 0 8px;
+}
+#table td{
+  vertical-align: top;
+  border-radius: 3px;
+  box-shadow: inset 0 0 1px 0 #333;
+  background-color: rgba(52,52,52,0.1);
+}
+
+#dateColumn{
+  width: 50px;
+}
+tr th:first-child .countTask{display: none;} /*очищаем шапку "Дата"*/
+
+/*Дата*/
+.tableDate{
+  background-color: rgb(109,182,83);
+  color: #fff;
+  border-radius: 3px;
+  overflow:scroll;
+  font-size: 0.8rem
+}
+
+.tableDate p{
+  padding: 0;
+  margin: 0;
+}
+/*Шапка таблицы*/
+.header_blockTitle{
+  position: relative;
+  padding: 0;
+  margin: 0 0 0 2px;
+}
+.header_blockTitle li{
+  text-decoration: none;
+  list-style: none;
+}
+.userName {float: left;}
+.countTask{float: right;}
+.countTask{
+  position: relative;
+  font-weight: 100;
+  background-color: rgba(54, 162, 16, 0.5);
+  box-shadow: inset 0 0 2px 0 rgba(52,52,52,0.5);
+  border-radius: 3px;
+  padding: 0 5px;
+}
+.countTask i{
+  margin-right: 8px;
+}
+.countTask i:last-child{margin-right: 0;}
+
+
+/*Данные*/
+.tableData{ /*border: 1px solid var(--color-border);*/ transition: all 0.1s ease-in-out;}
+.tableData:hover{
+  box-shadow: 0 0 1px 0 rgb(22, 109, 149);
+}
+
+.tableBlockDiv{
+  overflow:scroll;
+  overflow-x: hidden;
+  margin: 2px 1px 2px 2px;
+}
+
+/*-----------------------------------------------------------------*/
+
+/*-----------------------Стилизация Шапки-----------------------*/
+#mainMenu{
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  margin: 7px 0;
+  padding: 2px;
+  background-color: rgba(54,52,52,0.2);
+  box-shadow: 0 0 3px 0 #666;
+  border-radius: 3px;
+  /* border: 1px solid var(--color-border); */
+}
+
+#countDay{
+  width: 30px;
+}
+
+.header_text, .header_logotype {float: left;}
+.header_list, .header_day{
+  float: right;
+  height: 40px;
+  line-height: 40px;
+  margin: 10px 0 0 5px;
+  box-shadow: inset 0 0 1px 0 #333;
+  background-color: rgba(109,182,83,1);
+  color: #fff;
+  border-radius: 3px;
+  transition: all 0.1s ease-in-out;
+}
+.header_list:hover, .header_day:hover{
+    /* background-color: rgba(109,182,83,0.8); */
+    box-shadow: inset 0 0 3px 0 #222;
+}
+.header_day{
+  padding: 0 10px;
+}
+.header_logotype{
+  height: inherit;
+  margin: 2px;
+}
+.header_logotype img{
+  margin: 0 auto;
+}
+.header_text{
+  font-size: 22px;
+  font-weight: 600;
+  color: #383636;
+  text-transform: uppercase;
+}
+.unit{
+  padding: 0 10px;
+}
+.unit, #countDay{
+  background-color: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: inherit;
+  transition: all 0.1s ease-in-out;
+}
+.unit:focus{
+  outline: inherit;
+}
+
+.unit option{
+  border: none;
+  background-color: #fefefe;
+  color: #000;
+}
+
+/*-----------------------------------------------------------------*/
+
+.block{
+  display: inline;
+  float: left;
+  height: calc(100% - 80px);
+	box-sizing: border-box;
+  background-color: rgba(54,52,52,0.2);
+  box-shadow: 0 0 3px 0 #666;
+  border-radius: 3px;
+}
+
+.blockTitle{
+  height: 30px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-align: center;
+  background-color: rgb(109,182,83);
+  color: #fff;
+  line-height: 30px;
+  padding: 2px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+}
+
+#checkMain{
+  margin-bottom: 5px;
+  height: calc(100% - 42px - 200px);
+}
+
+/*-------------------------- Work Task -------------------------- */
+#workTasks{padding: 2px;}
+
+.countTaskChange{
+  position: absolute;
+  right: 0px;
+  width: 100%;
+  height: 30px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.countTaskChange:hover {
+  /* box-shadow: inset 0 0 1px 0 #333; */
+  background-color: rgba(49,155,65, 0.9);
+  cursor: pointer;
+  opacity: 1;
+}
+
+.main{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100% - 38px);
+}
+.workTask{
+  margin-bottom: 3px;
+  padding: 3px;
+  border-radius: 3px;
+  font-size: 11px;
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
+}
+.workTask:hover{
+  cursor: pointer;
+  box-shadow: 0 0 3px 0 #666;
+}
+.workTask:last-child{
+  margin-bottom: 0px;
+}
+
+.workTask:focus{
+  cursor: pointer;
+  box-shadow: inset 0 0 5px #00f;
+}
+
+.newTask{
+  background-color: rgba(254, 225, 141, 1);
+}
+
+.nullTime{
+  background-color: rgba(247, 249, 154, 1);
+}
+
+.done{
+  color: red;
+}
+
+.calcWidth{
+  min-width: 210px;
+}
+.client{
+  font-size: 12px;
+  margin: 1px 0 1px 0;
+  font-weight: 550;
+}
+
+.comment{
+  background-color: transparent;
+}
+
+.taskTime{
+  position: relative;
+}
+
+.time, .timeWork{
+  display: inline-block;
+}
+.playTask{
+  float: right;
+  top: -3px;
+  position: absolute;
+  left: calc(100% - 17px);
+}
+.play{
+  box-shadow: inset 0 0 2px 0 #363434;
+  background-color: rgba(130, 215, 242, 0.8);
+}
+.time i, .comment i, .vidRabot i, .location i {
+  width: 14px;
+  margin: 0 2px;
+  text-align: center;
+}
+
+.playTask i{
+  /* width: 25px; */
+  margin: 0 2px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.comment input{
+  width: calc(100% - 24px);
+  padding: 1px 0;
+  font-size: 11px;
+  background-color: transparent;
+  border: none;
+}
+
+.comment input:hover{
+  box-shadow: 0 0 2px 0 #306294;
+  background-color: rgba(255, 255, 255, 0.6);
+  transition: all 0.1s ease-in-out;
+}
+
+.time input{
+  width: 40px;
+  padding: 0;
+  font-size: 11px;
+  background-color: transparent;
+  border: none;
+}
+.srok{float: right;}
+/*-------------------------- Work Task End -------------------------- */
+
+/*-------------------------- Check Task Start-------------------------- */
+#checkTask{
+  float: right;
+  padding: 2px;
+}
+
+#closeTask{
+  position: relative;
+  height: 200px;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: inset 0 0 1px 0 #333;
+  transition: all 0.2s ease-in-out;
+  background-color: rgba(255,255,255,0.5);
+}
+#closeTask:hover{
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.9);
+}
+#closeTask img{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+  width: 160px;
+  margin: 0 auto;
+}
+/*-------------------------- Check Task End-------------------------- */

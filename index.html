@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> -->
+    <link rel="shortcut icon" href="style/images/ico.png" type="image/x-icon">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/jquery-ui.min.css">
+    <link rel="stylesheet" href="style/nprogress.css">
+    <link rel="stylesheet" href="style/font-awesome/css/font-awesome.min.css">
+  </head>
+
+  <body>
+
+    <div id="container">
+
+      <!-- Шапка -->
+      <div  id='mainMenu'>
+        <div class="header_logotype calcWidth"><img src="style/images/simple.png" alt="logotype"></div>
+        <div class="header_text">План загрузки подразделения</div>
+        <div class="header_list"><select id='subDivision' class="unit" name="" onchange="changeSubDivision()"></select></div>
+        <div class="header_day">Дней: <input id='countDay' onBlur="changeСountDay()" type="number" min="1" max="6" step="1" title="Кол-во дней"></div>
+        <div class="clearfix"></div>
+      </div>
+
+      <!-- все задачи в работе -->
+      <div id='workTasks' class='block'>
+        <div  class='blockTitle'>
+          <ul class="header_blockTitle">
+            <li class="userName">Все задачи</li>
+            <li class="countTask" onclick="addTask()">
+              <div class="countTaskChange"><i class="fa fa-plus" aria-hidden="true"></i> Add</div>
+              <i class="fa fa-tasks" aria-hidden="true" id="countWorkTask" title="Количество задач"></i>
+              <span class="countTime">
+                <i class="fa fa-clock-o" aria-hidden="true" id="timeWorkTask" title="Общее время задач"></i>
+              </span>
+            </li>
+            <li class="clearfix"></li>
+          </ul>
+        </div>
+
+        <div  id='workMain' class='main calcWidth'></div>
+      </div>
+
+      <!-- распределенные подзадачи -->
+      <table id="table" class='block'>
+        <tbody id="tableBody">
+          <tr class="tableHeader" id="tableHeaderTR">
+
+          </tr>
+        <tbody>
+      </table>
+
+      <!-- сделанные задачи стебующие проверки -->
+      <div id='checkTask' class='block'>
+        <div  class='blockTitle'>Контроль</div>
+        <div  id='checkMain' class='main calcWidth'></div>
+        <div  id='closeTask' class='main calcWidth'><img src="style/images/share.svg" alt="" title="Переместить выполненную задачу"> </div>
+      </div>
+
+    </div>
+
+    <script type="text/html" id="workTaskTemp">
+    		<% _.forEach(tasks, function(task) { %>
+    			<div class='workTask <%- task.style %>' prioritet='<%- task.prioritet %>' guid='<%- task.guid %>' title="<%- task.title %>" tabindex="0">
+            <div class='client'><%- task.client %> <span class='zakaz'> <%- task.zakaz %></span></div>
+
+
+            <div class='vidRabot'><i class="fa fa-thumb-tack" aria-hidden="true"></i><%- task.vidRabot %></div>
+            <div class='location'><i class="fa fa-map-marker" aria-hidden="true"></i><%- task.location %></div>
+
+            <div class="comment">
+              <i class="fa fa-comment-o" aria-hidden="true"></i>
+              <input type="text" maxlength="30" title="Коментарий" guid='<%- task.guid %>' value="<%- task.comment %>" onBlur="changeTaskComment(this)">
+            </div>
+
+            <div class='taskTime'>
+              <div class="time">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <div class='timeWork'><%- task.timeWork %> / </div>
+                <input type="number" min="0.5" max="100" step="0.5" title="Кол-во часов" guid='<%- task.guid %>' value="<%- task.time %>" onBlur="changeTaskTime(this)">
+              </div>
+              <div class='timeWork <%- task.done %>'><%- task.progress %>%</div>
+
+              <div class='srok'><%- task.srok %></div>
+
+              <div class="clearfix"></div>
+            </div>
+          </div>
+    		<% }); %>
+    </script>
+
+    <script type="text/html" id="workSubTaskHeaderTemp">
+        <% _.forEach(headers, function(header) { %>
+          <th class="blockTitle column" id="<%- header.guid %>">
+            <ul class="header_blockTitle">
+              <li class="userName"><%- header.name %></li>
+              <li class="countTask">
+                <i class="fa fa-tasks" aria-hidden="true" title="Количество задач"> <%- header.count %></i>
+                <span class="countTime">
+                  <i class="fa fa-clock-o" aria-hidden="true" title="Общее время задач"> <%- header.time %></i>
+                </span>
+              </li>
+              <li class="clearfix"></li>
+            </ul>
+          </th>
+        <% }); %>
+    </script>
+
+    <script type="text/html" id="workSubTaskTemp">
+    		<% _.forEach(tasks, function(task) { %>
+          <tr class='tableRow'>
+            <!-- дата -->
+            <th class='tableDate tableBlock'>
+              <p><%- task.day %></p>
+              <p><%- task.shortDate %></p>
+            </th>
+
+            <!-- подзадачи -->
+            <% _.forEach(task.worker, function(worker) { %>
+              <td class='tableData tableBlock calcWidth' guid='<%- worker.guid %>' date='<%- task.date %>'>
+                <div class='tableBlockDiv' guid='<%- worker.guid %>' date='<%- task.date %>'>
+                <% _.forEach(worker.subTasks, function(subTask) { %>
+                  <div class='workTask subTask <%- subTask.state %>' prioritet='<%- subTask.prioritet %>' guid='<%- subTask.guid %>' tabindex="0">
+                    <div class='client'><%- subTask.client %> <span class='zakaz'> <%- subTask.zakaz %></span></div>
+                    <div class='vidRabot'><i class="fa fa-thumb-tack" aria-hidden="true"></i><%- subTask.vidRabot %></div>
+                    <div class='location'><i class="fa fa-map-marker" aria-hidden="true"></i><%- subTask.location %></div>
+                    <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i><input type="text" onBlur="changeSubTaskComment(this)" guid='<%- subTask.guid %>' maxlength="30" title="Коментарий" name="" value="<%- subTask.comment %>"></div>
+                    <div class='taskTime'>
+                      <div class="time">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <input type="number" onBlur="changeSubTaskTime(this)" guid='<%- subTask.guid %>' min="0.5" max="24" step="0.5" title="Кол-во часов" name="" value="<%- subTask.time %>">
+                      </div>
+                      <div class="playTask" guid='<%- subTask.guid %>' onclick="playTask(this)">
+                        <i class="<%- subTask.stateIcon %>"></i>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                <% }); %>
+                </div>
+              </td>
+            <% }); %>
+          </tr>
+    		<% }); %>
+    </script>
+
+    <script type="text/html" id="workCeckSubTaskTemp">
+        <% _.forEach(subTasks, function(subTask) { %>
+          <div class='workTask subTask' prioritet='<%- subTask.prioritet %>' guid='<%- subTask.guid %>' tabindex="0">
+            <div class='client'><%- subTask.client %> <span class='zakaz'> <%- subTask.zakaz %></span></div>
+            <div class='vidRabot'><i class="fa fa-thumb-tack" aria-hidden="true"></i><%- subTask.vidRabot %></div>
+            <div class='location'><i class="fa fa-map-marker" aria-hidden="true"></i><%- subTask.location %></div>
+            <div class='location'><i class="fa fa-user-o" aria-hidden="true"></i><%- subTask.worker %></div>
+            <div class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i><input type="text" onBlur="changeSubTaskComment(this)" guid='<%- subTask.guid %>' maxlength="30" title="Коментарий" name="" value="<%- subTask.comment %>"></div>
+            <div class='taskTime'>
+              <div class="time"><i class="fa fa-clock-o" aria-hidden="true"></i><input type="number" onBlur="changeSubTaskTime(this)" min="0.5" max="100" step="0.5" title="Кол-во часов" name="" value="<%- subTask.time %>"></div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        <% }); %>
+    </script>
+
+    <script type="text/html" id="subDivisionTemp">
+        <% _.forEach(subDivisions, function(subDivision) { %>
+          <option guid='<%- subDivision.guid %>'><%- subDivision.name %></option>
+        <% }); %>
+    </script>
+
+    <script type="text/javascript" src="app/setting.js"></script>
+    <script type="text/javascript" src="app/nprogress.js"></script>
+    <script type="text/javascript" src="app/listenerInput.js"></script>
+    <script type="text/javascript" src="app/jquery.min.js"></script>
+    <script type="text/javascript" src="app/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="app/date.format.js"></script>
+    <script type="text/javascript" src="app/lodash.js"></script>
+    <script type="text/javascript" src="app/Sortable.js"></script>
+    <script type="text/javascript" src="app/listenerSortable.js"></script>
+    <script type="text/javascript" src="app/main.js"></script>
+</body>
+</html>
